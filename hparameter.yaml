@@ -1,15 +1,15 @@
 train:
-  batch_size: 18
+  batch_size: 4
   lr: 0.00003
   weight_decay: 0.00
-  num_workers: 64
-  gpus: 2 #ddp
+  num_workers: 22
+  gpus: 1 #ddp
   opt_eps: 1e-9
   beta1: 0.5
   beta2: 0.999
 
 data:
-  dir: '/DATA1/VCTK/VCTK-Corpus/wav48' #dir/spk/format
+  dir: '/opt/tiger/lhh_arnold_base/wav48_silence_trimmed' #dir/spk/format
   format: '*mic1.pt'
   cv_ratio: (100./108., 8./108., 0.00) #train/val/test
 
@@ -17,8 +17,8 @@ audio:
   sr: 48000
   nfft: 1024
   hop: 256
-  ratio: 2 #upscale_ratio
-  length: 32768 #32*1024 ~ 1sec
+  ratio: 12 #upscale_ratio
+  length: 32772 #32*1024 ~ 1sec
 
 arch:
   residual_layers: 30 #
