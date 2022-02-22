@@ -3,13 +3,13 @@ train:
   lr: 0.00003
   weight_decay: 0.00
   num_workers: 22
-  gpus: 1 #ddp
+  gpus: 4 #ddp
   opt_eps: 1e-9
   beta1: 0.5
   beta2: 0.999
 
 data:
-  dir: '/opt/tiger/lhh_arnold_base/wav48_silence_trimmed' #dir/spk/format
+  dir: '/blob/v-haoheliu/datasets/VCTK_92/wav48_silence_trimmed' #dir/spk/format
   format: '*mic1.pt'
   cv_ratio: (100./108., 8./108., 0.00) #train/val/test
 
@@ -35,7 +35,7 @@ ddpm:
   infer_schedule: "torch.tensor([1e-6,2e-6,1e-5,1e-4,1e-3,1e-2,1e-1,9e-1])"
 
 log:
-  name: 'nuwave_x2'
+  name: 'nuwave_random_fft_filter'
   checkpoint_dir: 'checkpoint'
   tensorboard_dir: 'tensorboard'
   test_result_dir: 'test_sample/result'

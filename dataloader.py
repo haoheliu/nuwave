@@ -87,8 +87,11 @@ class VCTKMultiSpkDataset(Dataset):
         self.dataformat = hparams.data.format
         self.data_list = _get_datalist(self.directory, self.dataformat,
                                        _get_spk(self.directory), self.cv)
-
-        self.filter_ratio = [1./hparams.audio.ratio]
+        
+        # Update here
+        self.filter_ratio = []
+        for i in range(2,10): self.filter_ratio.append(1/i)
+        for i in range(2,10): self.filter_ratio.append(2/i)
         self.lowpass = LowPass(hparams.audio.nfft,
                                hparams.audio.hop,
                                ratio=self.filter_ratio)

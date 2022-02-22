@@ -12,10 +12,10 @@ class LowPass(nn.Module):
         self.nfft = nfft
         self.hop = hop
         self.register_buffer('window', torch.hann_window(nfft), False)
-        f = torch.ones((len(ratio), nfft//2 + 1), dtype=torch.float)
-        for i, r in enumerate(ratio):
-            f[i, int((nfft//2+1) * r):] = 0.
-        self.register_buffer('filters', f, False)
+        self.f = torch.ones((1, nfft//2 + 1), dtype=torch.float)
+        # for i, r in enumerate(ratio):
+        #     f[i, int((nfft//2+1) * r):] = 0.
+        # self.register_buffer('filters', f, False)
 
     #x: [B,T], r: [B], int
     @torch.no_grad()
@@ -29,7 +29,11 @@ class LowPass(nn.Module):
                           self.hop,
                           window=self.window,
                           )#return_complex=False)  #[B, F, TT,2]
-        stft *= self.filters[r].view(*stft.shape[0:2],1,1 )
+        
+        filter = self.f.clone()
+        filter[0, int((self.nfft//2+1) * (torch.rand(1)*0.9+0.1).item()):] = 0.
+        stft *= filter[0].view(*stft.shape[0:2],1,1 )
+        
         x = torch.istft(stft,
                         self.nfft,
                         self.hop,
